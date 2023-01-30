@@ -1,1 +1,1 @@
-## THEJitu Cohort 9 Training Week3 Weekend Assignment(Streak Counter)
+## THEJitu Cohort 9 Training Week 3 Weekend Assignment(Streak Counter)
