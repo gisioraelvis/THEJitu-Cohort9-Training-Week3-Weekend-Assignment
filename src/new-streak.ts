@@ -156,6 +156,3 @@ const displayStreaks = () => {
     document.body.appendChild(streaksContainer);
   }
 };
-
-// Display the Streaks
-displayStreaks();

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./public/styles.css">
+    <title>My Streaks</title>
+</head>
+
+<!-- 
+Streak Counter With HTML, CSS AND TS
+Typescript Task 2
+Streak Counter
+We are Going to Build a Simple streak Counter. A streak Counter is a tracker for Good Habit. For
+Example, if I Stop smoking today, I want to add that as an activity an in future, like next month I can see
+how many days have gone without me smoking.
+Add a Functionality to View a Streak by displaying a Pop UpOn Close, Close the Pop Up
+Delete, Delete the Activity
+What To add
+Add a best streak Feature That Shows the activity with the best streak next to the header.
+Use the Following
+Arrays no Local Storage and should be private
+Three or More Classes
+At least one static method
+Strong Typing
+Interfaces, Have all interfaces on their one Folder.
+Readable Code
+The Functionality to calculate days of the streak should be in its own class, 
+Same for the functionality to Show the best Streak
+
+This page is to show all the streaks added by the user
+    The user should be able to add a streak
+
+    A streak should have a name, an image and a start date
+    The user should be able to delete a streak
+    The user should be able to view a streak
+    The user should be able to see the best streak
+ -->
+
+<body>
+    <div class="streaks-container">
+        <div class="add-new-streak-container">
+            <div class="add-btn">
+                <button class="btn" title="Add A New Streak">
+                    <a href="/new-streak.html">+</a>
+                </button>
+            </div>
+        </div>
+        <div class="streaks">
+            <h1>My Streaks</h1>
+            <div class="streak-card selected">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+                <button class="close-btn">x</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+        </div>
+    </div>
+    <script src="./public/js/streaks.js"></script>
+</body>
+
+</html>
