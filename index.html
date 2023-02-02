@@ -5,11 +5,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
     <title>Streak Counter</title>
 </head>
+<!-- 
+Streak Counter
+We are Going to Build a Simple streak Counter. A streak Counter is a tracker for Good Habit. For
+Example, if I Stop smoking today, I want to add that as an activity an in future, like next month I can see
+how many days have gone without me smoking.
+Below is a Guide to follow:
+On Page Load the page should look like This
+When you click the add Button
+On Close Go Back to the First Frame
+
+This is the home page, with 2 sections:
+A round btn with a plus sign in it, onclick redirect to another page to add a new streak
+An img with 
+ -->
 
 <body>
-
+    <div class="container">
+        <div class="add-btn">
+            <button class="btn" title="Add A New Streak">+</button>
+        </div>
+        <div class="streaks-demo">
+            <img src="./assets/demo-with-watch.png" alt="demo image" onclick="window.location.href='new-streak.html'">
+        </div>
+        <div class="welcome-msg">
+            <h1>Welcome to My Streak Counter</h1>
+        </div>
+    </div>
 </body>
 
 </html>
