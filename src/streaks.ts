@@ -216,7 +216,8 @@ This page is to show all the streaks added by the user
   }
  */
 
-// This is the streaks TS file
+import { IStreak } from "./interfaces.js";
+import { StreakStore } from "./store.js";
 
 // Grab the DOM elements
 const streaksContainer = document.querySelector(
@@ -232,77 +233,8 @@ const addBtnBtnA = document.querySelector(
   ".add-btn .btn a"
 ) as HTMLAnchorElement;
 
-// Streak interface id(startdatestring), name, image, startDate, days
-interface IStreak {
-  id: string;
-  name: string;
-  image: string;
-  date: string;
-  days: number;
-}
-
-// array of streaks
-const streaksArray: IStreak[] = [
-  {
-    id: "1",
-    name: "Coding",
-    image: "https://image.flaticon.com/icons/svg/2729/2729007.svg",
-    date: "28/07/2020",
-    days: 10,
-  },
-  {
-    id: "2",
-    name: "Reading",
-    image: "https://image.flaticon.com/icons/svg/2729/2729005.svg",
-    date: "01/08/2020",
-    days: 7,
-  },
-  {
-    id: "3",
-    name: "Working Out",
-    image: "https://image.flaticon.com/icons/svg/2729/2729006.svg",
-    date: "02/08/2020",
-    days: 6,
-  },
-  {
-    id: "4",
-    name: "Drawing",
-    image: "https://image.flaticon.com/icons/svg/2729/2729004.svg",
-    date: "03/08/2020",
-    days: 5,
-  },
-  {
-    id: "5",
-    name: "Meditating",
-    image: "https://image.flaticon.com/icons/svg/2729/2729008.svg",
-    date: "04/08/2020",
-    days: 4,
-  },
-  {
-    id: "6",
-    name: "Cycling",
-    image: "https://image.flaticon.com/icons/svg/2729/2729009.svg",
-    date: "05/08/2020",
-    days: 3,
-  },
-  {
-    id: "7",
-    name: "Yoga",
-    image: "https://image.flaticon.com/icons/svg/2729/2729010.svg",
-    date: "06/08/2020",
-    days: 2,
-  },
-  {
-    id: "8",
-    name: "Running",
-    image: "https://image.flaticon.com/icons/svg/2729/2729011.svg",
-    date: "07/08/2020",
-    days: 1,
-  },
-];
-
 // Create a function to render the streaks
-const renderStreaks = (streaksArray: any) => {
+const renderStreaks = (streakStore: IStreak[]) => {
   // Clear the streaks container
   streaksDiv.innerHTML = "";
 
@@ -310,7 +242,7 @@ const renderStreaks = (streaksArray: any) => {
   const fragment = document.createDocumentFragment();
 
   // Loop through the streaks array
-  streaksArray.forEach((streak: any) => {
+  streakStore.forEach((streak: any) => {
     // Create a streak card
     const streakCard = document.createElement("div");
 
@@ -334,7 +266,7 @@ const renderStreaks = (streaksArray: any) => {
 };
 
 // Render the streaks
-renderStreaks(streaksArray);
+renderStreaks(StreakStore);
 
 // Create a function to show the streak card as a pop up and add a close button
 const showStreakCardAsPopUp = (e: any) => {
@@ -398,14 +330,14 @@ const deleteStreak = (e: any) => {
     const streakCard = e.target.parentElement as HTMLDivElement;
 
     // Remove the streak from the streaks array
-    streaksArray.forEach((streak: any, index: number) => {
+    StreakStore.forEach((streak: IStreak, index: number) => {
       if (streak.id === streakCard.id) {
-        streaksArray.splice(index, 1);
+        StreakStore.splice(index, 1);
       }
     });
 
     // Render the streaks
-    renderStreaks(streaksArray);
+    renderStreaks(StreakStore);
   }
 };
 streaksDiv.addEventListener("click", deleteStreak);

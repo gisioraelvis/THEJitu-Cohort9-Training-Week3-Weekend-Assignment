@@ -53,6 +53,8 @@ The message saying no Activities added yet on add should be Activities
 
 This a TS file that will be used to create a new streak
  */
+import { IStreak } from "./interfaces.js";
+import { StreakStore } from "./store.js";
 
 // Grap the DOM Elements
 const newStreakForm = document.querySelector(
@@ -69,34 +71,44 @@ const newStreakSubmitBtn = document.querySelector(
   ".submit-btn"
 ) as HTMLButtonElement;
 
-// Interface for Streak
-interface Streak {
-  name: string;
-  img: string;
-  startDate: string;
-}
-
 // Class for Streak
-class Streak implements Streak {
+class Streak implements IStreak {
+  id: string;
   name: string;
-  img: string;
+  image: string;
   startDate: string;
-  constructor(name: string, img: string, startDate: string) {
+  days: number;
+
+  constructor(name: string, image: string, startDate: string) {
+    this.id = startDate;
     this.name = name;
-    this.img = img;
+    this.image = image;
     this.startDate = startDate;
+    this.days = 0;
+  }
+
+  // Calculate the days of the streak
+  calculateDays() {
+    const today = new Date();
+    const startDate = new Date(this.startDate);
+    const diff = today.getTime() - startDate.getTime();
+    this.days = Math.ceil(diff / (1000 * 3600 * 24));
+  }
+
+  // log the streak
+  logStreak() {
+    console.log(this);
+  }
+
+  // add the streak to the Streak Store
+  addStreak() {
+    StreakStore.unshift(this);
+
+    // Navigate to the Streaks Page without reloading the page but change to the Streaks Page
+    window.history.pushState({}, "", "/streaks");
+  
   }
 }
-
-// Create an Array to hold the Streaks
-const streaks: Streak[] = [];
-
-// Create a new Streak
-const newStreak = new Streak(
-  newStreakName.value,
-  newStreakImg.value,
-  newStreakStartDate.value
-);
 
 // Add a new Streak
 newStreakSubmitBtn.addEventListener("click", (e) => {
@@ -118,41 +130,19 @@ newStreakSubmitBtn.addEventListener("click", (e) => {
       newStreakSubmitBtn.removeAttribute("disabled");
     }, 5000);
   } else {
-    // Add the new Streak to the Streaks Array
-    streaks.push(newStreak);
+    // Add the new Streak to the Streak Store
+    const newStreak = new Streak(
+      newStreakName.value,
+      newStreakImg.value,
+      newStreakStartDate.value
+    );
+    newStreak.calculateDays();
+    newStreak.addStreak();
+    newStreak.logStreak();
+
     // Clear the form
     newStreakName.value = "";
     newStreakImg.value = "";
     newStreakStartDate.value = "";
   }
 });
-
-// Display the Streaks
-const displayStreaks = () => {
-  // Check if there are any Streaks
-  if (streaks.length === 0) {
-    const noStreaksMsg = document.createElement("p");
-    noStreaksMsg.textContent = "No Streaks Added Yet";
-    noStreaksMsg.className = "no-streaks-msg";
-    document.body.appendChild(noStreaksMsg);
-  } else {
-    // Show the Streaks
-    const streaksContainer = document.createElement("div");
-    streaksContainer.className = "streaks-container";
-    streaks.forEach((streak) => {
-      const streakItem = document.createElement("div");
-      streakItem.className = "streak-item";
-      const streakItemName = document.createElement("h2");
-      streakItemName.textContent = streak.name;
-      const streakItemImg = document.createElement("img");
-      streakItemImg.src = streak.img;
-      const streakItemStartDate = document.createElement("p");
-      streakItemStartDate.textContent = streak.startDate;
-      streakItem.appendChild(streakItemName);
-      streakItem.appendChild(streakItemImg);
-      streakItem.appendChild(streakItemStartDate);
-      streaksContainer.appendChild(streakItem);
-    });
-    document.body.appendChild(streaksContainer);
-  }
-};
