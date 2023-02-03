@@ -8,26 +8,12 @@
     <link rel="stylesheet" href="./public/styles.css">
     <title>Streak Counter</title>
 </head>
-<!-- 
-Streak Counter
-We are Going to Build a Simple streak Counter. A streak Counter is a tracker for Good Habit. For
-Example, if I Stop smoking today, I want to add that as an activity an in future, like next month I can see
-how many days have gone without me smoking.
-Below is a Guide to follow:
-On Page Load the page should look like This
-When you click the add Button
-On Close Go Back to the First Frame
-
-This is the home page, with 2 sections:
-A round btn with a plus sign in it, onclick redirect to another page to add a new streak
-An img with 
- -->
 
 <body>
-    <div class="add-new-streak-container">
+    <div class="hero-container" id="hero-container">
         <div class="add-btn">
-            <button class="btn" title="Add A New Streak">
-                <a href="/new-streak.html">+</a>
+            <button class="btn" id="add-btn-hero" title="Add A New Streak">
+                <a href="#new-streak-container">+</a>
             </button>
         </div>
         <div class="streaks-demo">
@@ -37,6 +23,77 @@ An img with
             <h1>Welcome to My Streak Counter</h1>
         </div>
     </div>
+
+    <div class="new-streak-container" id="new-streak-container">
+        <div class="add-btn">
+            <button class="btn" id="close-btn-streak-form" title="Add A New Streak">
+                <a href="#hero-container">x</a>
+            </button>
+        </div>
+        <div class="new-streak-form">
+            <form action="">
+                <h1>Add A New Streak</h1>
+                <div class="form-control">
+                    <label for="streak-name">Streak Name:</label>
+                    <input type="text" name="streak-name" id="streak-name" placeholder="Streak Name">
+                </div>
+                <div class="form-control">
+                    <label for="streak-img">Streak Image:</label>
+                    <input type="file" name="streak-img" id="streak-img" placeholder="Streak Image" accept="image/*">
+                </div>
+                <div class="form-control">
+                    <label for="streak-start-date">Streak Start Date:</label>
+                    <input type="date" name="streak-start-date" id="streak-start-date">
+                </div>
+                <div class="form-control">
+                    <button type="submit" class="submit-btn">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="streaks-container" id="#streaks-container">
+        <div class="add-new-streak-container">
+            <div class="add-btn">
+                <button class="btn" id="add-btn-streaks-section" title="Add A New Streak">
+                    <a href="#new-streak-container">+</a>
+                </button>
+            </div>
+        </div>
+        <div class="streaks">
+            <h1>My Streaks</h1>
+            <div class="streak-card selected">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+                <button class="close-btn">x</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+            <div class="streak-card">
+                <img src="./public/assets/running.png" alt="running image">
+                <h2>Running</h2>
+                <p>Started on 12th March 2021</p>
+                <p>Days: 3</p>
+                <button class="btn">View Streak</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./public/js/script.js"></script>
 </body>
 
 </html>
