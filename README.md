@@ -8,6 +8,10 @@ This is a simple streak counter application, designed to track and display good 
 - CSS
 - TypeScript
 
+### Live Demo Link
+
+https://gisioraelvis.github.io/THEJitu-Cohort9-Training-Week3-Weekend-Assignment
+
 ### Screenshots
 
 ![Screenshot 1](./public/assets/Screenshot%20from%202023-02-04%2016-46-06.png)
