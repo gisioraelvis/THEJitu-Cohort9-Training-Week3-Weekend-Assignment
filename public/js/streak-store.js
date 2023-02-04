@@ -1,9 +1,6 @@
-import { IStreak } from "./interfaces.js";
-
 // Streak Store, Array objects of type IStreak
-export const StreaksArray: IStreak[] = [];
-
-/* 
+export const StreaksArray = [];
+/*
 {
     id: "1",
     name: "Coding",
