@@ -1,30 +1,21 @@
-import { IStreak } from "./interfaces";
-
-// Streak Store, Array objects of type IStreak
-export const StreaksArray: IStreak[] = [
-  {
-    id: "1",
-    name: "Coding",
-    image: "https://image.flaticon.com/icons/svg/2729/2729007.svg",
-    startDate: "28/07/2020",
-    days: 10,
-  },
-];
+import { IStreak } from "./interfaces.js";
+import { StreaksArray } from "./streak-store.js";
+import { Streak } from "./streak.js";
 
 // Grap the DOM Elements
 //Hero Section
 const heroAddBtn = document.querySelector("#add-btn-hero") as HTMLDivElement;
+const heroSection = document.querySelector("#hero-container") as HTMLDivElement;
 
 //when hero add btn is clicked, hide the hero section and show the new streak form
 heroAddBtn.addEventListener("click", () => {
-  const heroSection = document.querySelector(
-    "#hero-container"
-  ) as HTMLDivElement;
   heroSection.style.display = "none";
 });
 
-// Form
-// close-btn-streak-form
+// Form section
+const newStreakContainer = document.querySelector(
+  "#new-streak-container"
+) as HTMLDivElement;
 const closeBtnOnStreakForm = document.querySelector(
   "#close-btn-streak-form"
 ) as HTMLDivElement;
@@ -42,54 +33,15 @@ const newStreakSubmitBtn = document.querySelector(
   ".submit-btn"
 ) as HTMLButtonElement;
 
-// Class for Streak
-class Streak {
-  id: string;
-  name: string;
-  image: string;
-  startDate: string;
-  days: number;
-
-  constructor(name: string, image: string, startDate: string) {
-    this.id = Math.random().toString(36).substr(2, 9);
-    this.name = name;
-    this.image = image;
-    this.startDate = startDate;
-    this.days = 0;
-  }
-
-  // Calculate the days of the streak
-  calculateDays() {
-    const startDate = new Date(this.startDate);
-    const currentDate = new Date();
-    const diffTime = Math.abs(currentDate.getTime() - startDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    this.days = diffDays;
-  }
-
-  // Add the Streak to the Streak Store
-  addStreak() {
-    StreaksArray.unshift(this);
-  }
-
-  // static method to delete a streak
-  static deleteStreak(id: string) {
-    const index = StreaksArray.findIndex((streak) => streak.id === id);
-    StreaksArray.splice(index, 1);
-  }
-}
-
 // When the close btn on the streak form is clicked, hide the form and show the hero section
 closeBtnOnStreakForm.addEventListener("click", () => {
-  const heroSection = document.querySelector(
-    "#hero-container"
-  ) as HTMLDivElement;
   heroSection.style.display = "flex";
 });
 
 // Add a new Streak
 newStreakSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
+
   // Validate the form
   if (
     newStreakName.value === "" ||
@@ -107,22 +59,19 @@ newStreakSubmitBtn.addEventListener("click", (e) => {
       newStreakSubmitBtn.removeAttribute("disabled");
     }, 5000);
   } else {
-    // save the image to the ./public/assets folder and get the path(local file system) upload from the browser from the local file system
-    // const image: File | null = newStreakImg?.files[0];
-    // const reader = new FileReader();
-    // reader.readAsDataURL(image ?? "");
+    // Get the image file and create a URL for the image
+    let image: File | null = null;
+    let imagePath = "/public/assets/default-streak-img.gif";
 
-    // // save image to the local file system and get the path
-    // // This is on the browser side
-    // reader.onload = () => {
-    //   const imageSrc = reader.result;
-    //   console.log(imageSrc);
-    // };
+    if (newStreakImg && newStreakImg.files && newStreakImg.files[0]) {
+      image = newStreakImg.files[0];
+      imagePath = URL.createObjectURL(image);
+    }
 
     // Add the new Streak to the Streak Store
     const newStreak = new Streak(
       newStreakName.value,
-      newStreakImg.value,
+      imagePath,
       newStreakStartDate.value
     );
     newStreak.calculateDays();
@@ -140,15 +89,9 @@ newStreakSubmitBtn.addEventListener("click", (e) => {
     streaksContainer.scrollIntoView({ behavior: "smooth" });
 
     // keep the hero section hidden
-    const heroSection = document.querySelector(
-      "#hero-container"
-    ) as HTMLDivElement;
     heroSection.style.display = "none";
 
     // Hide the new streak form #new-streak-container
-    const newStreakContainer = document.querySelector(
-      "#new-streak-container"
-    ) as HTMLDivElement;
     newStreakContainer.style.display = "none";
 
     // Show the streaks container #streaks-container
@@ -161,18 +104,13 @@ const streaksContainer = document.querySelector(
   ".streaks-container"
 ) as HTMLDivElement;
 const streaksDiv = document.querySelector(".streaks") as HTMLDivElement;
-const addNewStreakContainer = document.querySelector(
-  ".add-new-streak-container"
-) as HTMLDivElement;
 const addBtnOnStreaks = document.querySelector(
   "#add-btn-streaks-section"
 ) as HTMLDivElement;
 
 // When the add new streak button is clicked, hide the streaks container and show the new streak form
 addBtnOnStreaks.addEventListener("click", () => {
-  const newStreakContainer = document.querySelector(
-    "#new-streak-container"
-  ) as HTMLDivElement;
+  streaksContainer.style.display = "none";
   newStreakContainer.style.display = "flex";
 });
 
@@ -195,8 +133,7 @@ const renderStreaks = (streakStore: IStreak[]) => {
     streakCard.innerHTML = `
         <img src="${streak.image}" alt="${streak.name} image" />
         <h2>${streak.name}</h2>
-        <p>Started on ${streak.date}</p>
-        <p>Days: ${streak.days}</p>
+        <p id="start-date">Started on: ${streak.startDate}</p>
         <button class="btn">View Streak</button>
       `;
 
@@ -226,6 +163,14 @@ const showStreakCardAsPopUp = (e: any) => {
     closeBtn.innerText = `x`;
     streakCard.appendChild(closeBtn);
 
+    // Create a streak days element
+    const streakId = streakCard.id;
+    const streak = StreaksArray.find((streak) => streak.id === streakId);
+    const streakDays = document.createElement("p");
+    streakDays.id = "streak-days";
+    streakDays.textContent = `Days: ${streak?.days}`;
+    streakCard.children[2].insertAdjacentElement("afterend", streakDays);
+
     // hide view streak button
     e.target.style.display = "none";
 
@@ -235,6 +180,9 @@ const showStreakCardAsPopUp = (e: any) => {
     deleteBtn.setAttribute("title", "Delete Streak");
     deleteBtn.innerText = `Delete Streak`;
     streakCard.appendChild(deleteBtn);
+
+    // Scroll to the open streak card
+    streakCard.scrollIntoView();
   }
 };
 streaksDiv.addEventListener("click", showStreakCardAsPopUp);
@@ -258,9 +206,18 @@ const closeStreakCardPopUp = (e: any) => {
     ) as HTMLButtonElement;
     deleteBtn.remove();
 
+    // Remove the days p tag
+    const streakDays = streakCard.querySelector(
+      "#streak-days"
+    ) as HTMLParagraphElement;
+    streakDays.remove();
+
     // Show the view streak button
     const viewStreakBtn = streakCard.querySelector(".btn") as HTMLButtonElement;
     viewStreakBtn.style.display = "flex";
+
+    // Scroll to the streak card
+    streakCard.scrollIntoView();
   }
 };
 streaksDiv.addEventListener("click", closeStreakCardPopUp);
@@ -281,6 +238,9 @@ const deleteStreak = (e: any) => {
 
     // Render the streaks
     renderStreaks(StreaksArray);
+
+    // Scroll to the streaks container
+    streaksContainer.scrollIntoView();
   }
 };
 streaksDiv.addEventListener("click", deleteStreak);
